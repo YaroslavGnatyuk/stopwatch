@@ -14,7 +14,7 @@ import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 
 public class DigitalStopwatch extends Stopwatch {
-	private final DigitalStopwatchThread thread;
+	private final DigitalStopwatchThread digitalStopwatchThread;
 	private final JLabel clockLabel = new JLabel();
 	private final JButton btnStartPauseStopwatch;
 	private final JButton btnRestartStopwatch;
@@ -22,12 +22,16 @@ public class DigitalStopwatch extends Stopwatch {
 	private static final long serialVersionUID = 1L;
 	private JButton btnCloseStopwatch;
 
+	public JButton getBtnCloseStopwatch() {
+		return btnCloseStopwatch;
+	}
+
 	public DigitalStopwatch() {
 		this.setBounds(0, 0, 269, 250);
 		
         Font f = new Font("Default", Font.PLAIN + Font.ROMAN_BASELINE, 47);
         
-        thread = new DigitalStopwatchThread(this);
+        digitalStopwatchThread = new DigitalStopwatchThread(this);
         setLayout(null);
         clockLabel.setHorizontalAlignment(SwingConstants.CENTER);
         clockLabel.setBounds(12, 37, 245, 128);
@@ -42,7 +46,7 @@ public class DigitalStopwatch extends Stopwatch {
         btnRestartStopwatch.addActionListener(new ActionListener() {
 			
         	public void actionPerformed(ActionEvent e) {
-				if(thread.isRunning()) {
+				if(digitalStopwatchThread.isRunning()) {
 					clockLabel.setText("00:00:00");
 					restartStopwatch();
 				}
@@ -55,13 +59,13 @@ public class DigitalStopwatch extends Stopwatch {
         btnStartPauseStopwatch.setBounds(12, 196, 51, 42);
         btnStartPauseStopwatch.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		if(thread.isRunning()) {
+        		if(digitalStopwatchThread.isRunning()) {
 					btnStartPauseStopwatch.setIcon(new ImageIcon(getClass().getResource("/img/play.png")));
-        			thread.setRunning(false);
+        			digitalStopwatchThread.setRunning(false);
         		}else {
 					btnStartPauseStopwatch.setIcon(new ImageIcon(getClass().getResource("/img/pause.png")));
-        			thread.execute();
-        			thread.setRunning(true);
+        			digitalStopwatchThread.execute();
+        			digitalStopwatchThread.setRunning(true);
         		}
         	}
         });
@@ -77,11 +81,11 @@ public class DigitalStopwatch extends Stopwatch {
 		btnStopStopwatch.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				if(thread.isRunning()) {
+				if(digitalStopwatchThread.isRunning()) {
         			restartStopwatch();
 					btnStartPauseStopwatch.setIcon(new ImageIcon(getClass().getResource("/img/play.png")));
         			clockLabel.setText("00:00:00");
-        			thread.setRunning(false);
+        			digitalStopwatchThread.setRunning(false);
 				}else {
 					btnStartPauseStopwatch.setIcon(new ImageIcon(getClass().getResource("/img/play.png")));
 					restartStopwatch();
@@ -102,5 +106,9 @@ public class DigitalStopwatch extends Stopwatch {
 		 increaseSeconds(1);
 		 clockLabel.setText(getTime().toString());
 		 repaint();
+	}
+
+	public DigitalStopwatchThread getDigitalStopwatchThread() {
+		return digitalStopwatchThread;
 	}
 }

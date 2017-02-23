@@ -1,7 +1,6 @@
 package ua.in.gnatyuk.stopwatch.my_component;
 
 import ua.in.gnatyuk.stopwatch.my_component.stapwatch_thread.AnalogStopwatchThread;
-import ua.in.gnatyuk.stopwatch.view.MainWindow;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -12,9 +11,6 @@ import java.text.SimpleDateFormat;
 
 import javax.swing.*;
 
-/*
- * Clock analog
- */
 public class AnalogStopwatch extends Stopwatch {
 
     private AnalogStopwatchThread analogStopWatchThread;
@@ -38,7 +34,6 @@ public class AnalogStopwatch extends Stopwatch {
     int hour;
     int minute;
     int second;
-    Color colorSecond, colorMHour, colorNumber;
 
     public AnalogStopwatch() {
 
@@ -103,11 +98,6 @@ public class AnalogStopwatch extends Stopwatch {
         URL pathToClose = getClass().getResource("/img/close.png");
         btnCloseStopwatch.setIcon(new ImageIcon(pathToClose));
         add(btnCloseStopwatch);
-        btnCloseStopwatch.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                setDeleteThisStopwatch(true);
-            }
-        });
     }
 
 
@@ -132,7 +122,6 @@ public class AnalogStopwatch extends Stopwatch {
             drawHands(g, hour, minute, second, Color.RED, Color.BLACK);
         }
 
-        //draw point clock
         g.setColor(Color.BLACK);
         g.fillOval(centerX - 5, centerY - 5, 10, 10);
         g.setColor(Color.RED);
@@ -150,11 +139,7 @@ public class AnalogStopwatch extends Stopwatch {
         paint(this.getGraphics());
     }
 
-    /*-------------Clock Face----------------*/
     private void drawClockFace(Graphics g) {
-        // TODO Auto-generated method stub
-
-        // tick marks
         for (int sec = 0; sec < 60; sec++) {
             int ticStart;
             if (sec % 5 == 0) {
@@ -184,14 +169,13 @@ public class AnalogStopwatch extends Stopwatch {
         g.drawLine(x + dxmin, y + dymin, x + dxmax, y + dymax);
     }
 
-    /*----------------Clock Number-----------------*/
     private void drawNumberClock(Graphics g) {
         for (int num = 12; num > 0; num--) {
-            drawnum(g, radPerNum * num, num);
+            drawNum(g, radPerNum * num, num);
         }
     }
 
-    private void drawnum(Graphics g, float angle, int n) {
+    private void drawNum(Graphics g, float angle, int n) {
         float sine = (float) Math.sin(angle);
         float cosine = (float) Math.cos(angle);
         int dx = (int) ((size / 2 - 20 - 25) * -sine);
@@ -200,9 +184,7 @@ public class AnalogStopwatch extends Stopwatch {
         g.drawString("" + n, dx + centerX - 5, dy + centerY + 5);
     }
 
-    /*----------------Clock Hands--------------------*/
     private void drawHands(Graphics g, double hour, double minute, double second, Color colorSecond, Color colorMHour) {
-        // TODO Auto-generated method stub
         double rsecond = (second * 6) * (Math.PI) / 180;
         double rminute = ((minute + (second / 60)) * 6) * (Math.PI) / 180;
         double rhours = ((hour + (minute / 60)) * 30) * (Math.PI) / 180;
@@ -212,6 +194,14 @@ public class AnalogStopwatch extends Stopwatch {
         g.setColor(colorMHour);
         g.drawLine(centerX, centerY, centerX + (int) (60 * Math.cos(rminute - (Math.PI / 2))), centerY + (int) (60 * Math.sin(rminute - (Math.PI / 2))));
         g.drawLine(centerX, centerY, centerX + (int) (45 * Math.cos(rhours - (Math.PI / 2))), centerY + (int) (45 * Math.sin(rhours - (Math.PI / 2))));
+    }
+
+    public AnalogStopwatchThread getAnalogStopWatchThread() {
+        return analogStopWatchThread;
+    }
+
+    public JButton getBtnCloseStopwatch() {
+        return btnCloseStopwatch;
     }
 }
 

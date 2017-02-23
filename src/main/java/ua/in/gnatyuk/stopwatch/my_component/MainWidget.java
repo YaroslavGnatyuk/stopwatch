@@ -1,7 +1,5 @@
 package ua.in.gnatyuk.stopwatch.my_component;
 
-import ua.in.gnatyuk.stopwatch.my_component.stapwatch_thread.MainWidgetStopwatchThread;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -11,7 +9,6 @@ import java.util.*;
 import java.util.List;
 
 public class MainWidget extends JPanel {
-    MainWidgetStopwatchThread mainThread;
     private static final long serialVersionUID = 4844643587908521649L;
     private List<JPanel> stopwatches;
     private final JRadioButton analogStopwatchRadioBtn;
@@ -20,7 +17,6 @@ public class MainWidget extends JPanel {
     private final JButton btnCreateStopwatch;
 
     public MainWidget() {
-        runThread();
         setBounds(100, 100, 1024, 768);
 
         this.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -64,6 +60,7 @@ public class MainWidget extends JPanel {
 
         stopwatches = new ArrayList<JPanel>(6);
         stopwatches.add(panel_0);
+
         stopwatches.add(panel_1);
         stopwatches.add(panel_2);
         stopwatches.add(panel_3);
@@ -90,6 +87,7 @@ public class MainWidget extends JPanel {
         btnCreateStopwatch.setVisible(false);
         this.add(btnCreateStopwatch);
 
+
         btnAddNewStopWatch.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 analogStopwatchRadioBtn.setVisible(true);
@@ -104,9 +102,18 @@ public class MainWidget extends JPanel {
                 if (analogStopwatchRadioBtn.isSelected()) {
                     btnCreateStopwatch.setVisible(false);
                     btnAddNewStopWatch.setVisible(true);
-                    for (JPanel stopwatch : stopwatches) {
+                    for (final JPanel stopwatch : stopwatches) {
                         if (stopwatch.getComponentCount() < 1) {
-                            stopwatch.add(new AnalogStopwatch());
+                            final AnalogStopwatch analogStopwatch = new AnalogStopwatch();
+                            analogStopwatch.getBtnCloseStopwatch().addActionListener(new ActionListener() {
+                                public void actionPerformed(ActionEvent e) {
+                                    analogStopwatch.getAnalogStopWatchThread().cancel(true);
+                                    analogStopwatch.getAnalogStopWatchThread().setRunning(false);
+                                    stopwatch.removeAll();
+                                    stopwatch.repaint();
+                                }
+                            });
+                            stopwatch.add(analogStopwatch);
                             repaint();
                             break;
                         }
@@ -116,9 +123,17 @@ public class MainWidget extends JPanel {
                 } else if (digitalStopwatchRadioBtn.isSelected()) {
                     btnCreateStopwatch.setVisible(false);
                     btnAddNewStopWatch.setVisible(true);
-                    for (JPanel stopwatch : stopwatches) {
+                    for (final JPanel stopwatch : stopwatches) {
                         if (stopwatch.getComponentCount() < 1) {
-                            DigitalStopwatch digitalStopwatch = new DigitalStopwatch();
+                            final DigitalStopwatch digitalStopwatch = new DigitalStopwatch();
+                            digitalStopwatch.getBtnCloseStopwatch().addActionListener(new ActionListener() {
+                                public void actionPerformed(ActionEvent e) {
+                                    digitalStopwatch.getDigitalStopwatchThread().cancel(true);
+                                    digitalStopwatch.getDigitalStopwatchThread().setRunning(false);
+                                    stopwatch.removeAll();
+                                    stopwatch.repaint();
+                                }
+                            });
                             stopwatch.add(digitalStopwatch);
                             repaint();
                             break;
@@ -131,6 +146,7 @@ public class MainWidget extends JPanel {
                 }
             }
         });
+
 
         analogStopwatchRadioBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -151,10 +167,5 @@ public class MainWidget extends JPanel {
 
     public List<JPanel> getStopwatches() {
         return stopwatches;
-    }
-
-    private void runThread(){
-        mainThread = new MainWidgetStopwatchThread(this);
-        mainThread.execute();
     }
 }

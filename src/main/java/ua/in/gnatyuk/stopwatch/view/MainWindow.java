@@ -1,12 +1,12 @@
 package ua.in.gnatyuk.stopwatch.view;
 
 import ua.in.gnatyuk.stopwatch.my_component.MainWidget;
-import ua.in.gnatyuk.stopwatch.my_component.stapwatch_thread.MainWidgetStopwatchThread;
 
 import javax.swing.*;
 
 public class MainWindow extends JFrame {
-    private final MainWidget mainWidget;
+	private static final long serialVersionUID = 1L;
+	private final MainWidget mainWidget;
 
     public MainWindow() {
         mainWidget = new MainWidget();
