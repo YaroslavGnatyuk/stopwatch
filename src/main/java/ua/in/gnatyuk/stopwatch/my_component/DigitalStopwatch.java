@@ -2,16 +2,11 @@ package ua.in.gnatyuk.stopwatch.my_component;
 
 import ua.in.gnatyuk.stopwatch.my_component.stapwatch_thread.DigitalStopwatchThread;
 
-import javax.swing.JLabel;
-
-import java.awt.Font;
-
-import javax.swing.JButton;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
-import java.awt.event.ActionEvent;
-import javax.swing.SwingConstants;
-import javax.swing.ImageIcon;
 
 public class DigitalStopwatch extends Stopwatch {
 	private final DigitalStopwatchThread digitalStopwatchThread;
@@ -34,24 +29,12 @@ public class DigitalStopwatch extends Stopwatch {
         digitalStopwatchThread = new DigitalStopwatchThread(this);
         setLayout(null);
         clockLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        clockLabel.setBounds(12, 37, 245, 128);
+        clockLabel.setBounds(12, 12, 245, 128);
         clockLabel.setFont(f);
         clockLabel.setText("00:00:00");
         add(clockLabel);
         
-        btnRestartStopwatch = new JButton();
-		URL pathRestart = getClass().getResource("/img/restart.png");
-        btnRestartStopwatch.setIcon(new ImageIcon(pathRestart));
-        btnRestartStopwatch.setBounds(80, 196, 51, 42);
-        btnRestartStopwatch.addActionListener(new ActionListener() {
-			
-        	public void actionPerformed(ActionEvent e) {
-				if(digitalStopwatchThread.isRunning()) {
-					clockLabel.setText("00:00:00");
-					restartStopwatch();
-				}
-			}
-		});
+
         
         btnStartPauseStopwatch = new JButton();
 		final URL pathStart = getClass().getResource("/img/play.png");
@@ -69,6 +52,22 @@ public class DigitalStopwatch extends Stopwatch {
         		}
         	}
         });
+
+		btnRestartStopwatch = new JButton();
+		URL pathRestart = getClass().getResource("/img/restart.png");
+		btnRestartStopwatch.setIcon(new ImageIcon(pathRestart));
+		btnRestartStopwatch.setBounds(143, 196, 51, 42);
+		btnRestartStopwatch.addActionListener(e -> {
+			if(digitalStopwatchThread.isRunning()) {
+				clockLabel.setText("00:00:00");
+				restartStopwatch();
+			} else if (!digitalStopwatchThread.isRunning() && digitalStopwatchThread.getState().equals(SwingWorker.StateValue.STARTED)){
+				digitalStopwatchThread.setRunning(true);
+				btnStartPauseStopwatch.setIcon(new ImageIcon(getClass().getResource("/img/pause.png")));
+				clockLabel.setText("00:00:00");
+				restartStopwatch();
+			}
+		});
         
         add(btnStartPauseStopwatch);
         add(btnRestartStopwatch);
@@ -76,7 +75,7 @@ public class DigitalStopwatch extends Stopwatch {
         btnStopStopwatch = new JButton();
 		URL pathStop = getClass().getResource("/img/stop.png");
 		btnStopStopwatch.setIcon(new ImageIcon(pathStop));
-        btnStopStopwatch.setBounds(143, 196, 51, 42);
+        btnStopStopwatch.setBounds(77, 196, 51, 42);
 
 		btnStopStopwatch.addActionListener(new ActionListener() {
 			

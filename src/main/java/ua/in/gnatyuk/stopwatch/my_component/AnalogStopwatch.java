@@ -2,14 +2,12 @@ package ua.in.gnatyuk.stopwatch.my_component;
 
 import ua.in.gnatyuk.stopwatch.my_component.stapwatch_thread.AnalogStopwatchThread;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-
-import javax.swing.*;
 
 public class AnalogStopwatch extends Stopwatch {
 
@@ -88,6 +86,10 @@ public class AnalogStopwatch extends Stopwatch {
             public void actionPerformed(ActionEvent e) {
                 if(analogStopWatchThread.isRunning()) {
                     setZeroTime();
+                }else if (!analogStopWatchThread.isRunning() && analogStopWatchThread.getState().equals(SwingWorker.StateValue.STARTED)){
+                    analogStopWatchThread.setRunning(true);
+                    setZeroTime();
+                    btnStartPauseStopwatch.setIcon(new ImageIcon(getClass().getResource("/img/pause.png")));
                 }
             }
         });
