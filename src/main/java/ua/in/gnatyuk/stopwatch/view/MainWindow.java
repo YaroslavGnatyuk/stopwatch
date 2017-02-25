@@ -14,10 +14,12 @@ public class MainWindow extends JFrame {
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
+
         mainWidget = new MainWidget();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1024, 768);
         setContentPane(mainWidget);
+        this.setResizable(false);
     }
 
     public static void main(String[] args) {
