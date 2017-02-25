@@ -19,19 +19,17 @@ public class DigitalStopwatch extends Stopwatch {
 
 	public DigitalStopwatch() {
 		this.setBounds(0, 0, 269, 250);
-		
+
         Font f = new Font("Default", Font.PLAIN + Font.ROMAN_BASELINE, 47);
-        
+
         digitalStopwatchThread = new DigitalStopwatchThread(this);
         setLayout(null);
         clockLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        clockLabel.setBounds(12, 12, 245, 128);
+        clockLabel.setBounds(12, 43, 245, 128);
         clockLabel.setFont(f);
         clockLabel.setText("00:00:00");
         add(clockLabel);
-        
 
-        
         btnStartPauseStopwatch = new JButton();
 		final URL pathStart = getClass().getResource("/img/play.png");
         btnStartPauseStopwatch.setIcon(new ImageIcon(pathStart));
