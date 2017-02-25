@@ -28,9 +28,7 @@ public class AnalogStopwatchThread extends SwingWorker<LocalTime, AnalogStopwatc
 
     @Override
     protected void process(List<AnalogStopwatch> chunks) {
-        for (AnalogStopwatch analogStopwatch : chunks) {
-            analogStopwatch.increaseTime();
-        }
+        chunks.forEach(AnalogStopwatch::increaseTime);
     }
 
     public boolean isRunning() {

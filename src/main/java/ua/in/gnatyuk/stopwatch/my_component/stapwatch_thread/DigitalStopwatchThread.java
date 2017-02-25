@@ -27,9 +27,7 @@ public class DigitalStopwatchThread extends SwingWorker<LocalTime, DigitalStopwa
 
 	@Override
 	protected void process(List<DigitalStopwatch> chunks) {
-		for (DigitalStopwatch digitalStopwatch : chunks) {
-			digitalStopwatch.increaseTime();
-		}
+		chunks.forEach(DigitalStopwatch::increaseTime);
 	}
 
 	public boolean isRunning() {

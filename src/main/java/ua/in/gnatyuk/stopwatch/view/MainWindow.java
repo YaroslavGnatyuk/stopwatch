@@ -8,7 +8,12 @@ public class MainWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private final MainWidget mainWidget;
 
-    public MainWindow() {
+    private MainWindow() {
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
         mainWidget = new MainWidget();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1024, 768);
@@ -17,11 +22,9 @@ public class MainWindow extends JFrame {
 
     public static void main(String[] args) {
         try {
-            SwingUtilities.invokeAndWait(new Runnable() {
-                public void run() {
-                    MainWindow frame = new MainWindow();
-                    frame.setVisible(true);
-                }
+            SwingUtilities.invokeAndWait(() -> {
+                MainWindow frame = new MainWindow();
+                frame.setVisible(true);
             });
         } catch (Exception e) {
             e.printStackTrace();

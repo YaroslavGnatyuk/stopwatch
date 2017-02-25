@@ -17,10 +17,6 @@ public class DigitalStopwatch extends Stopwatch {
 	private static final long serialVersionUID = 1L;
 	private JButton btnCloseStopwatch;
 
-	public JButton getBtnCloseStopwatch() {
-		return btnCloseStopwatch;
-	}
-
 	public DigitalStopwatch() {
 		this.setBounds(0, 0, 269, 250);
 		
@@ -109,5 +105,9 @@ public class DigitalStopwatch extends Stopwatch {
 
 	public DigitalStopwatchThread getDigitalStopwatchThread() {
 		return digitalStopwatchThread;
+	}
+
+	public JButton getBtnCloseStopwatch() {
+		return btnCloseStopwatch;
 	}
 }

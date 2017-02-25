@@ -7,10 +7,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 
 public class AnalogStopwatch extends Stopwatch {
-
     private AnalogStopwatchThread analogStopWatchThread;
 
     private final JButton btnStartPauseStopwatch;
@@ -27,14 +25,7 @@ public class AnalogStopwatch extends Stopwatch {
     private int centerX;
     private int centerY;
 
-    SimpleDateFormat sf;
-
-    int hour;
-    int minute;
-    int second;
-
-    public AnalogStopwatch() {
-
+    AnalogStopwatch() {
         setBounds(0, 0, 269, 250);
         setLayout(null);
         analogStopWatchThread = new AnalogStopwatchThread(this);
@@ -114,9 +105,9 @@ public class AnalogStopwatch extends Stopwatch {
         drawClockFace(g);
         drawNumberClock(g);
 
-        hour = getTime().getHour();
-        minute = getTime().getMinute();
-        second = getTime().getSecond();
+        int hour = getTime().getHour();
+        int minute = getTime().getMinute();
+        int second = getTime().getSecond();
 
         if (status == 2) {
             drawHands(g, hour, minute, second, Color.RED, Color.YELLOW);
@@ -133,12 +124,12 @@ public class AnalogStopwatch extends Stopwatch {
 
     public void increaseTime() {
         increaseSeconds(1);
-        paint(this.getGraphics());
+        repaint();
     }
 
-    public void setZeroTime(){
+    private void setZeroTime(){
         restartStopwatch();
-        paint(this.getGraphics());
+        repaint();
     }
 
     private void drawClockFace(Graphics g) {
@@ -198,11 +189,11 @@ public class AnalogStopwatch extends Stopwatch {
         g.drawLine(centerX, centerY, centerX + (int) (45 * Math.cos(rhours - (Math.PI / 2))), centerY + (int) (45 * Math.sin(rhours - (Math.PI / 2))));
     }
 
-    public AnalogStopwatchThread getAnalogStopWatchThread() {
+    AnalogStopwatchThread getAnalogStopWatchThread() {
         return analogStopWatchThread;
     }
 
-    public JButton getBtnCloseStopwatch() {
+    JButton getBtnCloseStopwatch() {
         return btnCloseStopwatch;
     }
 }

@@ -3,9 +3,7 @@ package ua.in.gnatyuk.stopwatch.my_component;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainWidget extends JPanel {
@@ -22,50 +20,49 @@ public class MainWidget extends JPanel {
         this.setBorder(new EmptyBorder(5, 5, 5, 5));
         this.setLayout(null);
 
-        final JPanel panel_0 = new JPanel();
-        panel_0.setLayout(null);
-        panel_0.setBounds(57, 178, 269, 250);
-        panel_0.setBackground(Color.GRAY);
-        this.add(panel_0);
+        final JPanel stopwatchPanel_0 = new JPanel();
+        stopwatchPanel_0.setLayout(null);
+        stopwatchPanel_0.setBounds(57, 178, 269, 250);
+        stopwatchPanel_0.setBackground(Color.GRAY);
+        this.add(stopwatchPanel_0);
 
-        final JPanel panel_1 = new JPanel();
-        panel_1.setLayout(null);
-        panel_1.setBounds(380, 178, 269, 250);
-        panel_1.setBackground(Color.GRAY);
-        this.add(panel_1);
+        final JPanel stopwatchPanel_1 = new JPanel();
+        stopwatchPanel_1.setLayout(null);
+        stopwatchPanel_1.setBounds(380, 178, 269, 250);
+        stopwatchPanel_1.setBackground(Color.GRAY);
+        this.add(stopwatchPanel_1);
 
-        final JPanel panel_2 = new JPanel();
-        panel_2.setLayout(null);
-        panel_2.setBounds(707, 178, 269, 250);
-        panel_2.setBackground(Color.GRAY);
-        this.add(panel_2);
+        final JPanel stopwatchPanel_2 = new JPanel();
+        stopwatchPanel_2.setLayout(null);
+        stopwatchPanel_2.setBounds(707, 178, 269, 250);
+        stopwatchPanel_2.setBackground(Color.GRAY);
+        this.add(stopwatchPanel_2);
 
-        final JPanel panel_3 = new JPanel();
-        panel_3.setLayout(null);
-        panel_3.setBounds(57, 439, 269, 250);
-        panel_3.setBackground(Color.GRAY);
-        this.add(panel_3);
+        final JPanel stopwatchPanel_3 = new JPanel();
+        stopwatchPanel_3.setLayout(null);
+        stopwatchPanel_3.setBounds(57, 439, 269, 250);
+        stopwatchPanel_3.setBackground(Color.GRAY);
+        this.add(stopwatchPanel_3);
 
-        final JPanel panel_4 = new JPanel();
-        panel_4.setLayout(null);
-        panel_4.setBounds(380, 439, 269, 250);
-        panel_4.setBackground(Color.GRAY);
-        this.add(panel_4);
+        final JPanel stopwatchPanel_4 = new JPanel();
+        stopwatchPanel_4.setLayout(null);
+        stopwatchPanel_4.setBounds(380, 439, 269, 250);
+        stopwatchPanel_4.setBackground(Color.GRAY);
+        this.add(stopwatchPanel_4);
 
-        final JPanel panel_5 = new JPanel();
-        panel_5.setLayout(null);
-        panel_5.setBounds(709, 439, 269, 250);
-        panel_5.setBackground(Color.GRAY);
-        this.add(panel_5);
+        final JPanel stopwatchPanel_5 = new JPanel();
+        stopwatchPanel_5.setLayout(null);
+        stopwatchPanel_5.setBounds(709, 439, 269, 250);
+        stopwatchPanel_5.setBackground(Color.GRAY);
+        this.add(stopwatchPanel_5);
 
-        stopwatches = new ArrayList<JPanel>(6);
-        stopwatches.add(panel_0);
-
-        stopwatches.add(panel_1);
-        stopwatches.add(panel_2);
-        stopwatches.add(panel_3);
-        stopwatches.add(panel_4);
-        stopwatches.add(panel_5);
+        stopwatches = new ArrayList<>(6);
+        stopwatches.add(stopwatchPanel_0);
+        stopwatches.add(stopwatchPanel_1);
+        stopwatches.add(stopwatchPanel_2);
+        stopwatches.add(stopwatchPanel_3);
+        stopwatches.add(stopwatchPanel_4);
+        stopwatches.add(stopwatchPanel_5);
 
         analogStopwatchRadioBtn = new JRadioButton("Analog stopwatch");
         analogStopwatchRadioBtn.setBounds(286, 103, 187, 23);
@@ -88,84 +85,68 @@ public class MainWidget extends JPanel {
         this.add(btnCreateStopwatch);
 
 
-        btnAddNewStopWatch.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                analogStopwatchRadioBtn.setVisible(true);
-                digitalStopwatchRadioBtn.setVisible(true);
-                btnAddNewStopWatch.setVisible(false);
-                btnCreateStopwatch.setVisible(true);
-            }
+        btnAddNewStopWatch.addActionListener(e -> {
+            analogStopwatchRadioBtn.setVisible(true);
+            digitalStopwatchRadioBtn.setVisible(true);
+            btnAddNewStopWatch.setVisible(false);
+            btnCreateStopwatch.setVisible(true);
         });
 
-        btnCreateStopwatch.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (analogStopwatchRadioBtn.isSelected()) {
-                    btnCreateStopwatch.setVisible(false);
-                    btnAddNewStopWatch.setVisible(true);
-                    for (final JPanel stopwatch : stopwatches) {
-                        if (stopwatch.getComponentCount() < 1) {
-                            final AnalogStopwatch analogStopwatch = new AnalogStopwatch();
-                            analogStopwatch.getBtnCloseStopwatch().addActionListener(new ActionListener() {
-                                public void actionPerformed(ActionEvent e) {
-                                    analogStopwatch.getAnalogStopWatchThread().cancel(true);
-                                    analogStopwatch.getAnalogStopWatchThread().setRunning(false);
-                                    stopwatch.removeAll();
-                                    stopwatch.repaint();
-                                }
-                            });
-                            stopwatch.add(analogStopwatch);
-                            repaint();
-                            break;
-                        }
+        btnCreateStopwatch.addActionListener(e -> {
+            if (analogStopwatchRadioBtn.isSelected()) {
+                btnCreateStopwatch.setVisible(false);
+                btnAddNewStopWatch.setVisible(true);
+                for (final JPanel stopwatch : stopwatches) {
+                    if (stopwatch.getComponentCount() < 1) {
+                        final AnalogStopwatch analogStopwatch = new AnalogStopwatch();
+                        analogStopwatch.getBtnCloseStopwatch().addActionListener(e1 -> {
+                            analogStopwatch.getAnalogStopWatchThread().cancel(true);
+                            analogStopwatch.getAnalogStopWatchThread().setRunning(false);
+                            stopwatch.removeAll();
+                            stopwatch.repaint();
+                        });
+                        stopwatch.add(analogStopwatch);
+                        repaint();
+                        break;
                     }
-                    analogStopwatchRadioBtn.setVisible(false);
-                    digitalStopwatchRadioBtn.setVisible(false);
-                } else if (digitalStopwatchRadioBtn.isSelected()) {
-                    btnCreateStopwatch.setVisible(false);
-                    btnAddNewStopWatch.setVisible(true);
-                    for (final JPanel stopwatch : stopwatches) {
-                        if (stopwatch.getComponentCount() < 1) {
-                            final DigitalStopwatch digitalStopwatch = new DigitalStopwatch();
-                            digitalStopwatch.getBtnCloseStopwatch().addActionListener(new ActionListener() {
-                                public void actionPerformed(ActionEvent e) {
-                                    digitalStopwatch.getDigitalStopwatchThread().cancel(true);
-                                    digitalStopwatch.getDigitalStopwatchThread().setRunning(false);
-                                    stopwatch.removeAll();
-                                    stopwatch.repaint();
-                                }
-                            });
-                            stopwatch.add(digitalStopwatch);
-                            repaint();
-                            break;
-                        }
+                }
+                analogStopwatchRadioBtn.setVisible(false);
+                digitalStopwatchRadioBtn.setVisible(false);
+            } else if (digitalStopwatchRadioBtn.isSelected()) {
+                btnCreateStopwatch.setVisible(false);
+                btnAddNewStopWatch.setVisible(true);
+                for (final JPanel stopwatch : stopwatches) {
+                    if (stopwatch.getComponentCount() < 1) {
+                        final DigitalStopwatch digitalStopwatch = new DigitalStopwatch();
+                        digitalStopwatch.getBtnCloseStopwatch().addActionListener(e1 -> {
+                            digitalStopwatch.getDigitalStopwatchThread().cancel(true);
+                            digitalStopwatch.getDigitalStopwatchThread().setRunning(false);
+                            stopwatch.removeAll();
+                            stopwatch.repaint();
+                        });
+                        stopwatch.add(digitalStopwatch);
+                        repaint();
+                        break;
                     }
-                    analogStopwatchRadioBtn.setVisible(false);
-                    digitalStopwatchRadioBtn.setVisible(false);
-                } else {
-                    JOptionPane.showMessageDialog(panel_1, "You should select type of stopwatch");
                 }
+                analogStopwatchRadioBtn.setVisible(false);
+                digitalStopwatchRadioBtn.setVisible(false);
+            } else {
+                JOptionPane.showMessageDialog(stopwatchPanel_1, "You should select type of stopwatch");
             }
         });
 
 
-        analogStopwatchRadioBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (digitalStopwatchRadioBtn.isSelected()) {
-                    digitalStopwatchRadioBtn.setSelected(false);
-                }
+        analogStopwatchRadioBtn.addActionListener(e -> {
+            if (digitalStopwatchRadioBtn.isSelected()) {
+                digitalStopwatchRadioBtn.setSelected(false);
             }
         });
 
-        digitalStopwatchRadioBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (analogStopwatchRadioBtn.isSelected()) {
-                    analogStopwatchRadioBtn.setSelected(false);
-                }
+        digitalStopwatchRadioBtn.addActionListener(e -> {
+            if (analogStopwatchRadioBtn.isSelected()) {
+                analogStopwatchRadioBtn.setSelected(false);
             }
         });
-    }
-
-    public List<JPanel> getStopwatches() {
-        return stopwatches;
     }
 }
