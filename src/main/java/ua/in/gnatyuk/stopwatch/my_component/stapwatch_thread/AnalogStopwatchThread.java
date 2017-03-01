@@ -25,7 +25,6 @@ public class AnalogStopwatchThread extends SwingWorker<LocalTime, AnalogStopwatc
         return clock.getTime();
     }
 
-
     @Override
     protected void process(List<AnalogStopwatch> chunks) {
         chunks.forEach(AnalogStopwatch::increaseTime);

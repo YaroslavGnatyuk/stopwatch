@@ -17,7 +17,6 @@ public class AnalogStopwatch extends Stopwatch {
     private final JButton btnCloseStopwatch;
 
     private static final long serialVersionUID = 1L;
-    private int status = 0;
     private static final int spacing = 35;
     private static final float radPerSecMin = (float) (Math.PI / 30.0);
     private static final float radPerNum = (float) (Math.PI / -6);
@@ -38,11 +37,11 @@ public class AnalogStopwatch extends Stopwatch {
         btnStartPauseStopwatch.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                if (!analogStopWatchThread.isRunning() && !analogStopWatchThread.isCancelled()){
+                if (!analogStopWatchThread.isRunning() && !analogStopWatchThread.isCancelled()) {
                     btnStartPauseStopwatch.setIcon(new ImageIcon(getClass().getResource("/img/pause.png")));
                     analogStopWatchThread.execute();
                     analogStopWatchThread.setRunning(true);
-                }else if (analogStopWatchThread.isRunning()) {
+                } else if (analogStopWatchThread.isRunning()) {
                     btnStartPauseStopwatch.setIcon(new ImageIcon(getClass().getResource("/img/play.png")));
                     analogStopWatchThread.setRunning(false);
                 }
@@ -75,9 +74,9 @@ public class AnalogStopwatch extends Stopwatch {
         btnRestartStopwatch.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                if(analogStopWatchThread.isRunning()) {
+                if (analogStopWatchThread.isRunning()) {
                     setZeroTime();
-                }else if (!analogStopWatchThread.isRunning() && analogStopWatchThread.getState().equals(SwingWorker.StateValue.STARTED)){
+                } else if (!analogStopWatchThread.isRunning() && analogStopWatchThread.getState().equals(SwingWorker.StateValue.STARTED)) {
                     analogStopWatchThread.setRunning(true);
                     setZeroTime();
                     btnStartPauseStopwatch.setIcon(new ImageIcon(getClass().getResource("/img/pause.png")));
@@ -94,7 +93,6 @@ public class AnalogStopwatch extends Stopwatch {
     }
 
 
-
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -109,11 +107,8 @@ public class AnalogStopwatch extends Stopwatch {
         int minute = getTime().getMinute();
         int second = getTime().getSecond();
 
-        if (status == 2) {
-            drawHands(g, hour, minute, second, Color.RED, Color.YELLOW);
-        } else {
-            drawHands(g, hour, minute, second, Color.RED, Color.BLACK);
-        }
+        drawHands(g, hour, minute, second, Color.RED, Color.YELLOW);
+        drawHands(g, hour, minute, second, Color.RED, Color.BLACK);
 
         g.setColor(Color.BLACK);
         g.fillOval(centerX - 5, centerY - 5, 10, 10);
@@ -127,7 +122,7 @@ public class AnalogStopwatch extends Stopwatch {
         repaint();
     }
 
-    private void setZeroTime(){
+    private void setZeroTime() {
         restartStopwatch();
         repaint();
     }
@@ -140,12 +135,8 @@ public class AnalogStopwatch extends Stopwatch {
             } else {
                 ticStart = size / 2 - 5;
             }
-
-            if (status == 2) {
-                drawRadius(g, centerX, centerY, radPerSecMin * sec, ticStart - 20, size / 2 - 20, Color.YELLOW);
-            } else {
-                drawRadius(g, centerX, centerY, radPerSecMin * sec, ticStart - 20, size / 2 - 20, Color.BLACK);
-            }
+            drawRadius(g, centerX, centerY, radPerSecMin * sec, ticStart - 20, size / 2 - 20, Color.YELLOW);
+            drawRadius(g, centerX, centerY, radPerSecMin * sec, ticStart - 20, size / 2 - 20, Color.BLACK);
 
         }
     }
